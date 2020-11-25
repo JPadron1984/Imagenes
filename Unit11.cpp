@@ -19,6 +19,10 @@ TrackBar3->Position=255;
 
 Edit4->Text="Total de Pixels";
 
+redindex=0.2126;
+greenindex=0.7152;
+blueindex=0.0722;
+
 
 
 }
@@ -54,6 +58,7 @@ OpenPictureDialog1->Filter="Archivos graficos|*.bmp;*.jpg;*.jpeg";
 
 //PaintBox1->Height=pBitmap->Height;
 //PaintBox1->Width=pBitmap->Width;
+
 R1=PaintBox1->BoundsRect;
 
 PaintBox1->Invalidate();
@@ -185,6 +190,8 @@ Shape1->Brush->Color=clColor;
 
 void __fastcall TForm11::Button3Click(TObject *Sender)
 {
+//INVERTIR EN EJE X//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
 
@@ -204,6 +211,8 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::Button4Click(TObject *Sender)
 {
+//INVERTIR EN EJE Y//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
 
@@ -225,6 +234,8 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::ScrollBar1Change(TObject *Sender)
 {
+//CAMBIO DE COLOR POR UMBRAL//
+
 int umbral;
 int umbral2;
 int t;
@@ -269,16 +280,20 @@ Edit4->Text=t;
 
 void __fastcall TForm11::Button5Click(TObject *Sender)
 {
+//CUADRADO NEGRO//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
 
-	for (int y = (H/2)-50; y < (H/2)+50; y++) {
+
+	for (int y = (H/2)-100; y < (H/2)+100; y++) { //Alto del cuadrado
 
 		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila completa
 
-			for (int x = (W/2)-50; x < (W/2)+50; x++) {
+			for (int x = (W/2)-100; x < (W/2)+100; x++) { //Ancho del cuadrado
 
 				ptr[x]=clBlack;// Ptr2 posee la ultima fila del pbitmap
+
 	}
 
 }
@@ -288,8 +303,11 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::Button6Click(TObject *Sender)
 {
+//BANDERA//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
+
 
 	for (int y = (H/3); y < 2*(H/3); y++) {
 
@@ -298,6 +316,7 @@ W=pBitmap->Width;
 			for (int x = 0 ; x < W; x++) {
 
 				ptr[x]=clRed;// Ptr2 posee la ultima fila del pbitmap
+
 			}
 
 	}
@@ -321,6 +340,8 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::Button7Click(TObject *Sender)
 {
+//RECUADRO VERDE//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
 
@@ -347,6 +368,8 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::Button10Click(TObject *Sender)
 {
+//NEGATIVO//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
 
@@ -370,6 +393,7 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::Button8Click(TObject *Sender)
 {
+//ESCALA DE GRISES//
 
 H=pBitmap->Height;
 W=pBitmap->Width;
@@ -397,6 +421,8 @@ PaintBox1->Invalidate();
 
 void __fastcall TForm11::Button9Click(TObject *Sender)
 {
+//BLANCO Y NEGRO//
+
 H=pBitmap->Height;
 W=pBitmap->Width;
 
@@ -415,14 +441,91 @@ W=pBitmap->Width;
 
 				if (gray>127.5) {gray=0;}
 				else{gray=255;}
-												
+
 				ptr[x]=RGB(gray,gray,gray);
-								
+
 			}
-            
+
 
 }
 PaintBox1->Invalidate();
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm11::Button11Click(TObject *Sender)
+{
+//ESTRELLA//
+
+H=pBitmap->Height; //alto bitmap
+W=pBitmap->Width;  //ancho bitmap
+float n=0;//define el ancho
+float m=70; //define alto
+
+
+
+	for (int y = 4*(H/9)-m; y < 4*(H/9)+m; y++) {   //define posicion en eje vertical
+
+		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila de pixeles de la imagen
+		ptr2=(TColor*) pBitmap->ScanLine[H-y];//Cargo en la lista ptr la fila completa
+
+			for (int x = (W/2)-n; x < (W/2)+n; x++) {         //define posicion en el eje horizontal
+
+				ptr[x]=clBlack;//triangulo negro
+				ptr2[x]=clBlack;//triangulo invertido rojo
+
+				}
+		n=n+0.7;
+}
+
+PaintBox1->Invalidate();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm11::Button12Click(TObject *Sender)
+{
+//TRIANGULO CON EXTERIOR NEGATIVO//
+
+H=pBitmap->Height; //alto bitmap
+W=pBitmap->Width;  //ancho bitmap
+float n=0;//define el ancho
+float m=70; //define alto
+
+	for (int y = 0; y < H; y++) {
+
+		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila completa
+
+			for (int x = 0; x < W; x++) {
+
+				int red=GetRValue (ptr[x]);
+				int green=GetGValue (ptr[x]);
+				int blue=GetBValue (ptr[x]);
+
+				ptr[x]=RGB(255-red,255-green,255-blue);
+				}
+   }
+
+	 for (int y = 4*(H/9)-m; y < 4*(H/9)+m; y++) {   //define posicion en eje vertical
+
+		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila de pixeles de la imagen
+
+
+				for (int x = (W/2)-n; x < (W/2)+n; x++) {         //define posicion en el eje horizontal
+
+				int red=GetRValue (ptr[x]);
+				int green=GetGValue (ptr[x]);
+				int blue=GetBValue (ptr[x]);
+
+				ptr[x]=RGB(255-red,255-green,255-blue);
+
+
+				}
+				n=n+0.7;
+				}
+
+
+PaintBox1->Invalidate();
+}
+//---------------------------------------------------------------------------
+
 
