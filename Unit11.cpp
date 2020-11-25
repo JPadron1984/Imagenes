@@ -408,7 +408,7 @@ W=pBitmap->Width;
 				int green=GetGValue (ptr[x]);
 				int blue=GetBValue (ptr[x]);
 
-				int gray=(red*0.2126)+(green*0.7152)+(blue*0.0722);
+				int gray=(red*redindex)+(green*greenindex)+(blue*blueindex);
 
 				ptr[x]=RGB(gray,gray,gray);
 
@@ -436,7 +436,7 @@ W=pBitmap->Width;
 				int green=GetGValue (ptr[x]);
 				int blue=GetBValue (ptr[x]);
 
-				int gray=(red*0.2126)+(green*0.7152)+(blue*0.0722);
+				int gray=(red*redindex)+(green*greenindex)+(blue*blueindex);
 
 
 				if (gray>127.5) {gray=0;}
