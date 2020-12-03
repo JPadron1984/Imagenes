@@ -258,6 +258,8 @@ clNewColor=RGB(blue,green,red);
 for (int y = 0; y < H; y++) {
 
 	ptr=(TColor*) pBitmap->ScanLine[y];
+	ptr2=(TColor*) pBitmap->ScanLine[y];
+
 
 	for (int x = 0; x < W; x++) {
 		clPrueba=ptr[x];
@@ -266,8 +268,8 @@ for (int y = 0; y < H; y++) {
 
 		ptr[x]=clGreen;
 		t=t+1;
-
 		}
+
 
 }
 
@@ -315,7 +317,13 @@ W=pBitmap->Width;
 
 			for (int x = 0 ; x < W; x++) {
 
-				ptr[x]=clRed;// Ptr2 posee la ultima fila del pbitmap
+				ptr[x]=clBlue;// Ptr2 posee la ultima fila del pbitmap
+
+				int red=GetRValue (ptr[x]);
+				int green=GetGValue (ptr[x]);
+				int blue=GetBValue (ptr[x]);
+
+				ptr[x]=RGB(blue,green,red);
 
 			}
 
@@ -328,6 +336,13 @@ W=pBitmap->Width;
 			for (int x = 0 ; x < W; x++) {
 
 				ptr[x]=clWhite;// Ptr2 posee la ultima fila del pbitmap
+
+				int red=GetRValue (ptr[x]);
+				int green=GetGValue (ptr[x]);
+				int blue=GetBValue (ptr[x]);
+
+				ptr[x]=RGB(blue,green,red);
+
 			}
 
 	}
@@ -528,4 +543,64 @@ PaintBox1->Invalidate();
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm11::Button13Click(TObject *Sender)
+{
+H=pBitmap->Height;
+W=pBitmap->Width;
+
+
+int n=0;
+
+
+	for (int y = 0; y < H; y++) {
+
+		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila completa
+
+			for (int x = n ; x < W; x++) {
+
+				ptr[n]=clGreen;
+
+				}
+
+			n=n+1;
+
+			}
+
+PaintBox1->Invalidate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm11::Button14Click(TObject *Sender)
+{
+//CUADRADO NEGRO//
+
+H=pBitmap->Height;
+W=pBitmap->Width;
+
+
+	for (int y = 0; y < H; y++) { //Alto del cuadrado
+
+		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila completa
+
+			for (int x = W/3; x < 2*(W/3); x++) { //Ancho del cuadrado
+
+				ptr[x]=clRed;// Ptr2 posee la ultima fila del pbitmap
+			}
+	}
+
+	for (int y = 0; y < H; y++) { //Alto del cuadrado
+
+		ptr=(TColor*) pBitmap->ScanLine[y];//Cargo en la lista ptr la fila completa
+
+			for (int x = 4*(W/9); x < 5*(W/9); x++) { //Ancho del cuadrado
+
+				ptr[x]=clWhite;// Ptr2 posee la ultima fila del pbitmap
+			}
+	}
+
+
+PaintBox1->Invalidate();
+}
+//---------------------------------------------------------------------------
 
